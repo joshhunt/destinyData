@@ -99,7 +99,6 @@ extractData = (db, tableName, {id}) -> new Promise (resolve, reject) ->
     data = {}
     values.forEach ([colId, json]) ->
         item = JSON.parse json
-        item[id] = item[id].toString()
         data[item[id]] = item
 
     resolve {
