@@ -9,17 +9,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "adm-zip": "^0.4.7",
     "aws-sdk": "^2.1.29",
     "bluebird": "^2.9.25",
     "coffee-script": "^1.9.2",
-    "mkdirp": "^0.5.1",
     "node-sqlite-purejs": "0.0.2",
     "request-promise": "^0.4.2",
     "rimraf": "^2.3.3",
     "sql.js": "^0.2.21",
     "underscore": "^1.8.3",
-    "unzip": "^0.1.11",
-    "walk": "^2.3.9"
+    "unzip": "^0.1.11"
   }
 }
