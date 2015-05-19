@@ -1,6 +1,6 @@
 #! /bin/bash
 
-zip -r archiveLambda.zip index.js downloadData.coffee node_modules lib
+zip -r archiveLambda.zip index.js dumpDataToS3.coffee node_modules lib
 archive=$( base64 archiveLambda.zip )
 dir=$(pwd)
 
