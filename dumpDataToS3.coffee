@@ -4,12 +4,19 @@ mkdirp = require 'mkdirp'
 Promise = require 'bluebird'
 destiny = require './lib/destiny'
 
-
-bucketName = 'lambda-test'
+bucketName = 'destiny.plumbing'
 region = 'us-east-1'
-key = 'testData.json'
 
+index = {raw:{}}
 s3 = new AWS.S3()
+publicPathRoot = 'http://destiny.plumbing/'
+
+uploadDataset = ({table, data}) ->
+    key = "raw/#{table}.json"
+
+    uploadToS3 key, data
+        .then ->
+            index.raw[table] = publicPathRoot + key
 
 uploadToS3 = (key, data) -> new Promise (resolve, reject) ->
     s3.putObject {
@@ -17,6 +24,7 @@ uploadToS3 = (key, data) -> new Promise (resolve, reject) ->
         Key: key
         ContentType: 'application/json'
         Body: JSON.stringify data
+        ACL: 'public-read'
     }, (err) ->
         if err
             console.log 'Error uploading'
@@ -40,12 +48,14 @@ module.exports = (event, context) ->
             promises = []
 
             for dataSet in allData
-                key = "raw/#{dataSet.table}.json"
-                promises.push uploadToS3 key, dataSet.data
+                promises.push uploadDataset dataSet
 
             Promise.all(promises)
         .then ->
-            console.log 'All data has uploaded!'
+            console.log 'All data has uploaded. Uploading manifest.'
+            key = 'index.json'
+            uploadToS3 key, index
+        .then ->
             context.succeed()
         .catch (err) ->
             console.log 'Error with destiny.downloadData!'
