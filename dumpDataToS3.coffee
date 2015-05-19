@@ -7,7 +7,10 @@ destiny = require './lib/destiny'
 bucketName = 'destiny.plumbing'
 region = 'us-east-1'
 
-index = {raw:{}}
+index =
+    raw: {}
+    '@lastUpdated': new Date()
+
 s3 = new AWS.S3()
 publicPathRoot = 'http://destiny.plumbing/'
 
